@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block back %}<a href="{{ url_for('index') }}" class="back">‹ 返回</a>{% endblock %}
+{% block title %}{{ category }}{% endblock %}
+
+{% block content %}
+<!-- 二级分类 -->
+<div class="category-bar">
+    {% for sub in sub_cats %}
+    <span class="category-tag" style="cursor: pointer;">
+        <span class="icon">📦</span>
+        {{ sub }}
+    </span>
+    {% endfor %}
+</div>
+
+<div class="item-list">
+    {% for item in items %}
+    <a href="{{ url_for('item_detail', item_id=item.id) }}" class="item-card">
+        <div class="item-info">
+            <div class="item-title">
+                {{ item.title }}
+                <span class="item-type-tag {% if item.item_type == '招领' %}tag-found{% elif item.status == '已归还' %}tag-done{% else %}tag-lost{% endif %}">
+                    {% if item.status == '已归还' %}已归还
+                    {% else %}{{ item.item_type }}
+                    {% endif %}
+                </span>
+            </div>
+            <div class="item-desc">{{ item.description }}</div>
+            <div class="item-meta">{{ item.time }} · {{ item.location }}</div>
+        </div>
+    </a>
+    {% else %}
+    <p style="text-align: center; color: #999; padding: 30px 0;">暂无该分类物品</p>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block nav %}{% endblock %}

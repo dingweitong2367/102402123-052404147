@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block back %}<a href="{{ url_for('my_posts') }}" class="back">‹ 返回</a>{% endblock %}
+{% block title %}修改信息状态{% endblock %}
+
+{% block content %}
+<div style="padding: 15px;">
+    <div style="font-size: 16px; font-weight: 600; margin-bottom: 5px;">{{ item.title }}</div>
+    <div style="font-size: 13px; color: #999;">{{ item.item_type }}·{{ item.location }}拾获</div>
+</div>
+
+<form method="post">
+    <div class="form-card">
+        <div style="font-size: 14px; color: #333; padding: 10px 0; font-weight: 500;">选择新状态</div>
+        
+        <div class="radio-options">
+            <label class="radio-option">
+                <input type="radio" name="status" value="已归还" {% if item.status == '已归还' %}checked{% endif %}>
+                <div>
+                    <div class="option-title">已找到失主(已归还)</div>
+                    <div class="option-desc">物品已物归原主,信息将显示为已完成</div>
+                </div>
+            </label>
+            
+            <label class="radio-option">
+                <input type="radio" name="status" value="进行中" {% if item.status == '进行中' %}checked{% endif %}>
+                <div>
+                    <div class="option-title">仍进行中</div>
+                    <div class="option-desc">继续展示在列表,等待认领</div>
+                </div>
+            </label>
+            
+            <label class="radio-option">
+                <input type="radio" name="status" value="暂停展示" {% if item.status == '暂停展示' %}checked{% endif %}>
+                <div>
+                    <div class="option-title">暂停展示</div>
+                    <div class="option-desc">暂时从列表中隐藏</div>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-primary" style="border: none;">确认修改</button>
+</form>
+{% endblock %}
+
+{% block nav %}{% endblock %}

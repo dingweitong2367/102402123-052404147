@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block back %}<a href="{{ url_for('index') }}" class="back">‹ 返回</a>{% endblock %}
+{% block title %}搜索{% endblock %}
+
+{% block content %}
+<div class="search-box">
+    <form method="get" action="{{ url_for('search') }}">
+        <input type="text" name="q" placeholder="搜索物品名称或地点" value="{{ keyword }}" autofocus>
+    </form>
+</div>
+
+{% if keyword %}
+<!-- 搜索结果 -->
+<div class="search-section">
+    <h3>搜索结果 共{{ results|length }}条</h3>
+    <div class="item-list" style="padding: 0;">
+        {% for item in results %}
+        <a href="{{ url_for('item_detail', item_id=item.id) }}" class="item-card">
+            <div class="item-info">
+                <div class="item-title">
+                    {{ item.title }}
+                    <span class="item-type-tag {% if item.item_type == '招领' %}tag-found{% elif item.status == '已归还' %}tag-done{% else %}tag-lost{% endif %}">
+                        {% if item.status == '已归还' %}已归还
+                        {% else %}{{ item.item_type }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="item-desc">{{ item.username }} · {{ item.location }}</div>
+                <div class="item-meta">{{ item.time }}</div>
+            </div>
+        </a>
+        {% else %}
+        <p style="text-align: center; color: #999; padding: 30px 0;">暂无相关结果</p>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<!-- 热门搜索 -->
+<div class="search-section">
+    <h3>热门搜索</h3>
+    <div class="hot-tags">
+        {% for word in hot_words %}
+        <a href="{{ url_for('search', q=word) }}" class="hot-tag">{{ word }}</a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 搜索历史 -->
+{% if history %}
+<div class="search-section">
+    <div class="search-history-header">
+        <h3>搜索历史</h3>
+        <a href="{{ url_for('clear_history') }}" class="clear-btn">清空</a>
+    </div>
+    <div class="hot-tags">
+        {% for h in history %}
+        <a href="{{ url_for('search', q=h.keyword) }}" class="hot-tag">{{ h.keyword }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block nav %}{% endblock %}

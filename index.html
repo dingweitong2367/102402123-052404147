@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}校园失物招领{% endblock %}
+
+{% block content %}
+<!-- 搜索框 -->
+<div class="search-box">
+    <a href="{{ url_for('search') }}" style="text-decoration: none; color: inherit;">
+        <input type="text" placeholder="搜索物品名称或地点" readonly>
+    </a>
+</div>
+
+<!-- 分类入口 -->
+<div class="category-bar">
+    {% for cat in categories %}
+    <a href="{{ url_for('category', category=cat) }}" class="category-tag">
+        <span class="icon">
+            {% if cat == '证件' %}🪪
+            {% elif cat == '书籍' %}📚
+            {% elif cat == '钥匙' %}🔑
+            {% elif cat == '数码' %}📱
+            {% elif cat == '衣物' %}🧥
+            {% else %}📦
+            {% endif %}
+        </span>
+        {{ cat }}
+    </a>
+    {% endfor %}
+</div>
+
+<!-- 寻物/招领切换 -->
+<div class="tab-bar">
+    <a href="{{ url_for('all_items', type='全部') }}" class="tab-item active">全部</a>
+    <a href="{{ url_for('all_items', type='寻物') }}" class="tab-item">寻物</a>
+    <a href="{{ url_for('all_items', type='招领') }}" class="tab-item">招领</a>
+</div>
+
+<!-- 最新发布 -->
+<div class="section-title">
+    <span>最新发布</span>
+    <a href="{{ url_for('all_items') }}" class="more">查看全部 ></a>
+</div>
+
+<div class="item-list">
+    {% for item in latest %}
+    <a href="{{ url_for('item_detail', item_id=item.id) }}" class="item-card">
+        <div class="item-info">
+            <div class="item-title">
+                {{ item.title }}
+                <span class="item-type-tag {% if item.item_type == '招领' %}tag-found{% elif item.status == '已归还' %}tag-done{% else %}tag-lost{% endif %}">
+                    {% if item.status == '已归还' %}已归还
+                    {% elif item.status == '暂停展示' %}暂停展示
+                    {% else %}{{ item.item_type }}
+                    {% endif %}
+                </span>
+            </div>
+            <div class="item-desc">{{ item.description }}</div>
+            <div class="item-meta">{{ item.time }} · {{ item.location }}</div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

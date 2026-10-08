@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}我的发布{% endblock %}
+
+{% block content %}
+<!-- 用户信息 -->
+<div class="user-info">
+    <div class="user-avatar">👤</div>
+    <div>
+        <div class="user-name">{{ user.username }}</div>
+        <div style="font-size: 12px; color: #999; margin-top: 3px;">我的发布与认领记录</div>
+    </div>
+</div>
+
+<!-- 数据统计 -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <div class="num">{{ total }}</div>
+        <div class="label">全部</div>
+    </div>
+    <div class="stat-item">
+        <div class="num">{{ ongoing }}</div>
+        <div class="label">进行中</div>
+    </div>
+    <div class="stat-item">
+        <div class="num">{{ returned }}</div>
+        <div class="label">已归还</div>
+    </div>
+</div>
+
+<!-- 状态筛选 -->
+<div class="tab-bar">
+    <a href="{{ url_for('my_posts', status='全部') }}" class="tab-item {% if current_status == '全部' %}active{% endif %}">全部</a>
+    <a href="{{ url_for('my_posts', status='进行中') }}" class="tab-item {% if current_status == '进行中' %}active{% endif %}">进行中</a>
+    <a href="{{ url_for('my_posts', status='已归还') }}" class="tab-item {% if current_status == '已归还' %}active{% endif %}">已归还</a>
+</div>
+
+<div class="item-list" style="margin-top: 10px;">
+    {% for item in items %}
+    <div class="item-card">
+        <div class="item-info">
+            <div class="item-title">
+                {{ item.title }}
+                <span class="item-type-tag {% if item.status == '进行中' %}tag-found{% else %}tag-done{% endif %}">
+                    {{ item.status }}
+                </span>
+            </div>
+            <div class="item-desc">{{ item.location }}</div>
+            <div class="item-meta">{{ item.publish_time.split(' ')[0] }} {{ item.time }}</div>
+        </div>
+        <a href="{{ url_for('edit_status', item_id=item.id) }}" style="color: #ff8c00; font-size: 13px; text-decoration: none;">修改状态</a>
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #999; padding: 30px 0;">暂无发布内容</p>
+    {% endfor %}
+</div>
+{% endblock %}
