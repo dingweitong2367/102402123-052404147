@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block back %}<a href="javascript:history.back()" class="back">‹ 返回</a>{% endblock %}
+{% block title %}信息详情{% endblock %}
+
+{% block content %}
+<div class="detail-card">
+    <div class="detail-row">
+        <div class="detail-label">物品分类</div>
+        <div class="detail-value">{{ item.category }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">拾获地点</div>
+        <div class="detail-value">{{ item.location }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">拾获时间</div>
+        <div class="detail-value">{{ item.publish_time }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">物品描述</div>
+        <div class="detail-value">{{ item.description }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">当前状态</div>
+        <div class="detail-value">
+            <span class="item-type-tag {% if item.status == '进行中' %}tag-found{% else %}tag-done{% endif %}">
+                {{ item.status }}
+            </span>
+        </div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">发布者</div>
+        <div class="detail-value">{{ item.username }}</div>
+    </div>
+    <div class="detail-row">
+        <div class="detail-label">联系方式</div>
+        <div class="detail-value">{{ masked_phone }}</div>
+    </div>
+</div>
+
+{% if is_owner %}
+<a href="{{ url_for('edit_status', item_id=item.id) }}" class="btn-secondary">修改信息状态</a>
+{% else %}
+<a href="{{ url_for('contact_publisher', item_id=item.id) }}" class="btn-primary">联系认领</a>
+{% endif %}
+
+{% endblock %}
+
+{% block nav %}{% endblock %}

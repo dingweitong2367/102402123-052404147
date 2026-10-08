@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>校园失物招领</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% block header %}
+    <div class="header">
+        {% block back %}{% endblock %}
+        <h1>{% block title %}校园失物招领{% endblock %}</h1>
+    </div>
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+
+    {% block nav %}
+    <div class="bottom-nav">
+        <a href="{{ url_for('index') }}" class="nav-item {% if request.endpoint == 'index' %}active{% endif %}">
+            <span class="icon">🏠</span>
+            首页
+        </a>
+        <a href="{{ url_for('publish') }}" class="nav-item {% if request.endpoint == 'publish' %}active{% endif %}">
+            <span class="icon">➕</span>
+            发布
+        </a>
+        <a href="{{ url_for('notifications') }}" class="nav-item {% if request.endpoint == 'notifications' %}active{% endif %}">
+            <span class="icon">🔔</span>
+            消息
+        </a>
+        <a href="{{ url_for('my_posts') }}" class="nav-item {% if request.endpoint == 'my_posts' %}active{% endif %}">
+            <span class="icon">👤</span>
+            我的
+        </a>
+    </div>
+    {% endblock %}
+</body>
+</html>

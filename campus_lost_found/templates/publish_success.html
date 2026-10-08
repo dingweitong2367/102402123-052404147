@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}发布成功{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block content %}
+<div class="success-page">
+    <div class="success-icon">✅</div>
+    <div class="success-title">发布成功</div>
+    <div class="success-desc">
+        信息已发布到「失物招领」列表<br>
+        有人认领时会通过你留下的方式联系你
+    </div>
+    <a href="{{ url_for('index') }}" class="btn-primary" style="margin: 0 auto 15px; width: 80%;">继续逛逛</a>
+    <a href="{{ url_for('my_posts') }}" class="btn-secondary" style="margin: 0 auto; width: 80%;">查看我的发布</a>
+</div>
+{% endblock %}
