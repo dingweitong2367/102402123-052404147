@@ -53,8 +53,7 @@ campus_lost_found/
    ```bash
    pip install flask
 4.执行启动命令运行项目：
-```python app.py
-```
+```python app.py```
 5.当命令行输出 Running on http://127.0.0.1:5000 时，打开浏览器访问以下任意地址即可使用系统：
    http://localhost:5000
    http://127.0.0.1:5000
